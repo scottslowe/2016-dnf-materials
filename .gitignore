@@ -6,3 +6,5 @@
 .bundle/
 .vagrant
 output/
+.tfstate
+.tfstate.backup
