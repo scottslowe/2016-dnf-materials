@@ -1,0 +1,34 @@
+---
+- hosts: "all"
+  sudo: "yes"
+  remote_user: "vagrant"
+
+  tasks:
+  - name: "Add Docker APT repository key"
+    apt_key:
+      keyserver: "p80.pool.sks-keyservers.net"
+      id: "58118E89F3A912897C070ADBF76221572C52609D"
+      state: "present"
+
+  - name: "Add Docker APT repository for Trusty"
+    apt_repository:
+      repo: "deb https://apt.dockerproject.org/repo ubuntu-trusty main"
+      state: "present"
+
+  - name: "Install Docker packages"
+    apt:
+      name: "{{ item }}"
+      state: "present"
+      update_cache: "yes"
+    with_items:
+    - docker-engine
+    - unzip
+
+  - name: "Customize Docker daemon configuration"
+    lineinfile:
+      dest: "/etc/default/docker"
+      regexp: "^#DOCKER_OPTS"
+      line: "DOCKER_OPTS='-H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock'"
+      owner: "root"
+      group: "root"
+      mode: "0644"
