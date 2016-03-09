@@ -15,7 +15,7 @@
       repo: "deb https://apt.dockerproject.org/repo ubuntu-trusty main"
       state: "present"
 
-  - name: "Install Docker packages"
+  - name: "Install unzip and Docker packages"
     apt:
       name: "{{ item }}"
       state: "present"
@@ -32,3 +32,44 @@
       owner: "root"
       group: "root"
       mode: "0644"
+
+  - name: "Download the experimental Docker binary"
+    get_url:
+      url: "https://github.com/nerdalert/dotfiles/files/162406/docker-1.11.0-dev.zip"
+      dest: "/home/vagrant/docker-1.11.0-dev.zip"
+
+  - name: "Unzip the experimental Docker binary"
+    unarchive:
+      src: "/home/vagrant/docker-1.11.0-dev.zip"
+      dest: "/usr/bin/"
+      copy: "no"
+
+  - name: "Set properties on downloaded Docker binary"
+    file:
+      path: "/usr/bin/docker-1.11.0-dev"
+      owner: "root"
+      group: "root"
+      mode: "0755"
+
+  - name: "Stop Docker service"
+    service:
+      name: "docker"
+      state: "stopped"
+
+  - name: "Move original Docker binary"
+    command: "mv /usr/bin/docker /usr/bin/docker-1.10.2"
+    args:
+      creates: "/usr/bin/docker-1.10.2"
+
+  - name: "Create symbolic link for Docker binary"
+    file:
+      src: "/usr/bin/docker-1.11.0-dev"
+      dest: "/usr/bin/docker"
+      owner: "root"
+      group: "root"
+      state: "link"
+
+  - name: "Start Docker service"
+    service:
+      name: "docker"
+      state: "started"
