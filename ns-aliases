@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# Define aliases for use in demo
+alias ip="sudo ip"
+alias ns1="ip netns exec ns1"
+alias shellns1="ip netns exec ns1 /bin/bash"

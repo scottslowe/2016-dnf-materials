@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Define aliases for use in demo
+alias ip="sudo ip"
+alias docker="sudo docker"

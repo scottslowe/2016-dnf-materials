@@ -13,18 +13,21 @@
       - qemu-kvm
       - libvirt-bin
       - virtinst
+
   - name: "Download Cirros image"
     get_url:
       url: "https://download.cirros-cloud.net/0.3.2/cirros-0.3.2-x86_64-disk.img"
       dest: "/home/vagrant/cirros-0.3.2-x86_64-disk.img"
       validate_certs: "no"
+
   - name: "Set file permissions"
     file:
       path: "/home/vagrant/cirros-0.3.2-x86_64-disk.img"
       owner: "vagrant"
       group: "vagrant"
       mode: "0644"
-  - name: "Copy Libvirt network definition and setup script"
+
+  - name: "Copy support files"
     copy:
       src: "{{ item }}"
       dest: "/home/vagrant/"
@@ -32,4 +35,14 @@
       group: "vagrant"
     with_items:
      - macvtap.xml
-     - kvm-config.sh
+     - kvm-setup.sh
+     - launch-vm.sh
+     - kvm-aliases
+
+  - name: "Make scripts executable"
+    file:
+      path: "{{ item }}"
+      mode: "0755"
+    with_items:
+      - kvm-setup.sh
+      - launch-vm.sh

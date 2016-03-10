@@ -23,6 +23,7 @@
     with_items:
     - docker-engine
     - unzip
+    - ethtool
 
   - name: "Customize Docker daemon configuration"
     lineinfile:
@@ -73,3 +74,20 @@
     service:
       name: "docker"
       state: "started"
+
+  - name: "Copy support files"
+    copy:
+      src: "{{ item }}"
+      dest: "/home/vagrant"
+      owner: "vagrant"
+      group: "vagrant"
+    with_items:
+      - docker-setup.sh
+      - docker-aliases
+
+  - name: "Make scripts executable"
+    file:
+      path: "{{ item }}"
+      mode: "0755"
+    with_items:
+      - docker-setup.sh

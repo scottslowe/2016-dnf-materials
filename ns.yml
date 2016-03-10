@@ -1,0 +1,15 @@
+---
+- hosts: "all"
+  sudo: "yes"
+  remote_user: "vagrant"
+
+  tasks:
+  - name: "Copy support files"
+    copy:
+      src: "{{ item }}"
+      dest: "/home/vagrant/"
+      owner: "vagrant"
+      group: "vagrant"
+      mode: "0644"
+    with_items:
+     - ns-aliases
