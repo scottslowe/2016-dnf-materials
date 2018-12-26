@@ -1,9 +1,9 @@
 ---
-title:              DNF Demo Script
-project:            DevOps Network Forum 2016
-author:             Scott Lowe
-affiliation:        VMware, Inc.
-date:               2016-03-10
+title: DNF Demo Script
+project: DevOps Network Forum 2016
+author: Scott Lowe
+affiliation: VMware, Inc.
+date: 2016-03-10
 keywords:
   - Linux
   - Networking
